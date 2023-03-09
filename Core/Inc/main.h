@@ -31,7 +31,10 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "math.h"
+#include <stdio.h>
+#include <stdarg.h>
+#include <stdint.h>
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -53,7 +56,21 @@ extern "C" {
 void Error_Handler(void);
 
 /* USER CODE BEGIN EFP */
+void I2C_LCD_4bit_cmd_WRITE(uint8_t cmd);
+void I2C_LCD_4bit_data_WRITE(uint8_t data);
+void lcd_set_cursor(uint8_t row, uint8_t column);
+void lcd_data_write(uint8_t cmd);
+void lcd_string_write(char *str);
+void I2C_LCD_Init(void);
+void lcd_cmd_write(uint8_t cmd);
+void lcd_display_clear(void);
 void delay_us(uint32_t number);
+
+
+void getTemp(void); // DHT22?óê?Ñú ?ç∞?ù¥?Ñ∞ Í∞??†∏?ò§Í∏?
+
+extern I2C_HandleTypeDef	hi2c1;
+extern TIM_HandleTypeDef	htim10;
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
@@ -109,6 +126,14 @@ void delay_us(uint32_t number);
 #define LD2_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
+#define LCD_ADDR	(0x27 << 1)
+
+/*LCD cmd*/
+#define LCD_CMD_4DL_2N_5X8F			0x28 // 4ÎπÑÌä∏ ?ç∞?ù¥?Ñ∞, 2Ï§? ?Ç¨?ö©, 5*8 Í∏??ûê ?Å¨Í∏? - function set Î™ÖÎ†π?ñ¥
+#define LCD_CMD_DON_CURON			0x0E // ?îî?ä§?îå?†à?ù¥ ?ò®, Ïª§ÏÑú ?ò®
+#define LCD_CMD_INCADD				0x06 // Ïª§ÏÑú Ï¶ùÍ? Î∞©Ìñ•
+#define LCD_CMD_DIS_CLEAR			0x01 // ?îî?ä§?îå?†à?ù¥ ?Å¥Î¶¨Ïñ¥?ö©
+#define LCD_CMD_DIS_RETURN_HOME		0x02 // ?ôà?úºÎ°? ?èå?ïÑÍ∞?Í≤? ?ï®
 
 /* USER CODE END Private defines */
 
