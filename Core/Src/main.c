@@ -120,8 +120,8 @@ int main(void)
   MX_TIM10_Init();
   MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
-  HAL_TIM_Base_Start(&htim10); // us ?”œ? ˆ?´?š© ???´ë¨? ?‹œ?‘
-  I2C_LCD_Init();	// lcd ì´ˆê¸°?™” ì½”ë“œ
+  HAL_TIM_Base_Start(&htim10); // us_timer start
+  I2C_LCD_Init();	// lcd init
   /* USER CODE END 2 */
 
   /* Init scheduler */
@@ -145,7 +145,7 @@ int main(void)
 
   /* Create the thread(s) */
   /* creation of defaultTask */
-  defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
+  //defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -156,15 +156,17 @@ int main(void)
   /* USER CODE END RTOS_EVENTS */
 
   /* Start scheduler */
-  osKernelStart();
+  //osKernelStart();
 
   /* We should never get here as control is now taken by the scheduler */
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  //1. basically get dht22 data
   while (1)
   {
     /* USER CODE END WHILE */
-
+	  getTemp();
+	  HAL_Delay(2000);
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -465,10 +467,10 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 void delay_us(uint32_t number)
 {
-	//ì¹´ìš´?ï¿½ï¿½ 0?ï¿½ï¿½ï¿??? ?ï¿½ï¿½?ï¿½ï¿½
+	//ì¹´ìš´?ï¿½ï¿½ 0?ï¿½ï¿½ï¿½??? ?ï¿½ï¿½?ï¿½ï¿½
 	__HAL_TIM_SET_COUNTER(&htim10,0);
 
-	//ï¿???ï¿??? ì¹´ìš´?ï¿½ï¿½ï¿??? ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ usë³´ë‹¤ ?ï¿½ï¿½?ï¿½ï¿½ï¿??? ë¬´í•œë£¨í”„
+	//ï¿½???ï¿½??? ì¹´ìš´?ï¿½ï¿½ï¿½??? ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ usë³´ë‹¤ ?ï¿½ï¿½?ï¿½ï¿½ï¿½??? ë¬´í•œë£¨í”„
 	while(__HAL_TIM_GET_COUNTER(&htim10) < number);
 }
 

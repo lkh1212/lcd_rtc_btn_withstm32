@@ -7,7 +7,7 @@
 
 #include "main.h"
 
-void getTemp(void)
+void getTemp(void)	//PC2
 {
 	GPIO_InitTypeDef tempgpio;
 
@@ -85,8 +85,12 @@ void getTemp(void)
 	char humi_str [5] ;
 	sprintf(temp_str,"%d",temp);
 	sprintf(humi_str,"%d",humi);
-	lcd_set_cursor(1, 0);
-
+	lcd_set_cursor(1, 1);
 	lcd_string_write("temp = ");
 	lcd_string_write(temp_str);
+	HAL_Delay(50);
+	lcd_set_cursor(2, 1);
+	lcd_string_write("humi = ");
+	lcd_string_write(humi_str);
+
 }
