@@ -5,7 +5,7 @@
  *      Author: lees
  */
 #include "main.h"
-
+#include "cmsis_os.h"
 
 
 void I2C_LCD_Init(void)
@@ -33,7 +33,8 @@ void lcd_display_clear(void)
 	I2C_LCD_4bit_cmd_WRITE(0x00);
 	I2C_LCD_4bit_cmd_WRITE(0x10);
 	//2ms의 딜레이 줘야 함
-	HAL_Delay(2);
+	//HAL_Delay(2);
+	osDelay(pdMS_TO_TICKS(2));
 }
 
 
@@ -43,7 +44,8 @@ void lcd_display_return_home(void)
 	I2C_LCD_4bit_cmd_WRITE(0x00);
 	I2C_LCD_4bit_cmd_WRITE(0x20);
 	//2ms의 딜레이 줘야 함
-	HAL_Delay(2);
+//	HAL_Delay(2);
+	osDelay(pdMS_TO_TICKS(2));
 }
 
 
@@ -65,6 +67,7 @@ void lcd_set_cursor(uint8_t row, uint8_t column)
 		default:
 			break;
 	}
+	//osDelay(pdMS_TO_TICKS(2));
 }
 
 
@@ -72,7 +75,8 @@ void lcd_cmd_write(uint8_t cmd)
 {
 	I2C_LCD_4bit_cmd_WRITE(cmd & 0xF0); // 상위 4비트
 	I2C_LCD_4bit_cmd_WRITE((cmd << 4) & 0xF0); // 하위 4비트
-	HAL_Delay(2);
+	//HAL_Delay(2);
+	osDelay(pdMS_TO_TICKS(2));
 }
 
 void lcd_string_write(char *str)
@@ -86,7 +90,9 @@ void lcd_data_write(uint8_t cmd)
 {
 	I2C_LCD_4bit_data_WRITE((char)cmd & 0xF0); // 상위 4비트
 	I2C_LCD_4bit_data_WRITE(((char)cmd << 4) & 0xF0); // 하위 4비트
-	HAL_Delay(2);
+	//HAL_Delay(2);
+	osDelay(pdMS_TO_TICKS(2));
+
 }
 
 void I2C_LCD_4bit_cmd_WRITE(uint8_t cmd)

@@ -6,7 +6,7 @@
  */
 
 #include "main.h"
-
+#include "cmsis_os.h"
 void getTemp(void)	//PC2
 {
 	GPIO_InitTypeDef tempgpio;
@@ -23,7 +23,8 @@ void getTemp(void)	//PC2
 	HAL_GPIO_Init(GPIOC, &tempgpio);
 
 	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_2, GPIO_PIN_RESET);
-	HAL_Delay(3); // 1~10ms 지연
+	//HAL_Delay(3); // 1~10ms 지연
+	osDelay(pdMS_TO_TICKS(3));
 	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_2, GPIO_PIN_SET);
 
 	//2.40us동안 딜레이 (HIGH상태)
@@ -83,12 +84,15 @@ void getTemp(void)	//PC2
 	humi /= 10;
 	char temp_str [5] ;
 	char humi_str [5] ;
+
 	sprintf(temp_str,"%d",temp);
 	sprintf(humi_str,"%d",humi);
 	lcd_set_cursor(1, 1);
 	lcd_string_write("temp = ");
 	lcd_string_write(temp_str);
-	HAL_Delay(50);
+
+	//HAL_Delay(50);
+	osDelay(pdMS_TO_TICKS(50));
 	lcd_set_cursor(2, 1);
 	lcd_string_write("humi = ");
 	lcd_string_write(humi_str);

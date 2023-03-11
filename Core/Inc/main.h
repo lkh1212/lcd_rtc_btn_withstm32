@@ -65,17 +65,22 @@ void I2C_LCD_Init(void);
 void lcd_cmd_write(uint8_t cmd);
 void lcd_display_clear(void);
 void delay_us(uint32_t number);
+void print_rtc(void);
+
+void btn_rtc_print_interrupt(void);
 
 
-void getTemp(void); // DHT22?óê?Ñú ?ç∞?ù¥?Ñ∞ Í∞??†∏?ò§Í∏?
+void getTemp(void); // DHT22?ÔøΩÔøΩ?ÔøΩÔøΩ ?ÔøΩÔøΩ?ÔøΩÔøΩ?ÔøΩÔøΩ Ôø???ÔøΩÔøΩ?ÔøΩÔøΩÔø??
 
 extern I2C_HandleTypeDef	hi2c1;
 extern TIM_HandleTypeDef	htim10;
+extern RTC_HandleTypeDef	hrtc;
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
 #define USER_Btn_Pin GPIO_PIN_13
 #define USER_Btn_GPIO_Port GPIOC
+#define USER_Btn_EXTI_IRQn EXTI15_10_IRQn
 #define MCO_Pin GPIO_PIN_0
 #define MCO_GPIO_Port GPIOH
 #define RMII_MDC_Pin GPIO_PIN_1
@@ -129,11 +134,11 @@ extern TIM_HandleTypeDef	htim10;
 #define LCD_ADDR	(0x27 << 1)
 
 /*LCD cmd*/
-#define LCD_CMD_4DL_2N_5X8F			0x28 // 4ÎπÑÌä∏ ?ç∞?ù¥?Ñ∞, 2Ï§? ?Ç¨?ö©, 5*8 Í∏??ûê ?Å¨Í∏? - function set Î™ÖÎ†π?ñ¥
-#define LCD_CMD_DON_CURON			0x0E // ?îî?ä§?îå?†à?ù¥ ?ò®, Ïª§ÏÑú ?ò®
-#define LCD_CMD_INCADD				0x06 // Ïª§ÏÑú Ï¶ùÍ? Î∞©Ìñ•
-#define LCD_CMD_DIS_CLEAR			0x01 // ?îî?ä§?îå?†à?ù¥ ?Å¥Î¶¨Ïñ¥?ö©
-#define LCD_CMD_DIS_RETURN_HOME		0x02 // ?ôà?úºÎ°? ?èå?ïÑÍ∞?Í≤? ?ï®
+#define LCD_CMD_4DL_2N_5X8F			0x28 // 4ÎπÑÌä∏ ?ÔøΩÔøΩ?ÔøΩÔøΩ?ÔøΩÔøΩ, 2Ôø?? ?ÔøΩÔøΩ?ÔøΩÔøΩ, 5*8 Ôø???ÔøΩÔøΩ ?ÔøΩÔøΩÔø?? - function set Î™ÖÎ†π?ÔøΩÔøΩ
+#define LCD_CMD_DON_CURON			0x0E // ?ÔøΩÔøΩ?ÔøΩÔøΩ?ÔøΩÔøΩ?ÔøΩÔøΩ?ÔøΩÔøΩ ?ÔøΩÔøΩ, Ïª§ÏÑú ?ÔøΩÔøΩ
+#define LCD_CMD_INCADD				0x06 // Ïª§ÏÑú Ï¶ùÔøΩ? Î∞©Ìñ•
+#define LCD_CMD_DIS_CLEAR			0x01 // ?ÔøΩÔøΩ?ÔøΩÔøΩ?ÔøΩÔøΩ?ÔøΩÔøΩ?ÔøΩÔøΩ ?ÔøΩÔøΩÎ¶¨Ïñ¥?ÔøΩÔøΩ
+#define LCD_CMD_DIS_RETURN_HOME		0x02 // ?ÔøΩÔøΩ?ÔøΩÔøΩÔø?? ?ÔøΩÔøΩ?ÔøΩÔøΩÔø??Ôø?? ?ÔøΩÔøΩ
 
 /* USER CODE END Private defines */
 
